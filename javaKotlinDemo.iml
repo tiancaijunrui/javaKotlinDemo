@@ -6,6 +6,15 @@
         <fileset id="fileset" name="Spring Context" removed="false">
           <file>file://$MODULE_DIR$/src/main/resources/spring-config/spring-context.xml</file>
         </fileset>
+        <fileset id="fileset2" name="Spring Servlet" removed="false">
+          <file>file://$MODULE_DIR$/src/main/resources/spring-config/spring-servlet.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring-config/spring-context.xml</file>
+        </fileset>
+        <fileset id="fileset3" name="Web" removed="false">
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/web.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring-config/spring-context.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring-config/spring-servlet.xml</file>
+        </fileset>
       </configuration>
     </facet>
     <facet type="web" name="Web">

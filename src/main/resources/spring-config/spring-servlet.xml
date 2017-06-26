@@ -10,17 +10,26 @@
 	 http://www.springframework.org/schema/context
 	 http://www.springframework.org/schema/context/spring-context-4.1.xsd">
     <!--重定向-->
-    <!--<mvc:redirect-view-controller path="/" redirect-url="front/initPage"/>-->
+    <mvc:redirect-view-controller path="/" redirect-url="uc/toLogin"/>
     <mvc:annotation-driven/>
     <!-- 读取jdbc.properties文件 -->
     <context:property-placeholder location="classpath:env.properties,classpath:*.properties"/>
     <!-- 把请求映射到controller -->
-    <context:component-scan base-package="com.zcj">
+    <context:component-scan base-package="com.zcj.controller">
         <context:include-filter type="annotation"
                                 expression="org.springframework.stereotype.Controller"/>
         <context:exclude-filter type="annotation"
                                 expression="org.springframework.stereotype.Service"/>
     </context:component-scan>
+    <!-- 配置freeMarker视图解析器 -->
+    <bean id="viewResolverFtl" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>
+        <property name="contentType" value="text/html; charset=utf-8"/>
+        <property name="cache" value="true"/>
+        <property name="suffix" value=".ftl"/>
+        <property name="order" value="0"/>
+        <property name="requestContextAttribute" value="rc"/>
+    </bean>
     <!-- 把逻辑视图名称映射到真正视图上 -->
     <bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/pages/"/>
@@ -37,4 +46,5 @@
         <property name="defaultEncoding" value="utf-8"/>
     </bean>
     <mvc:resources mapping="/web-static/**" location="/web-static/"/>
+
 </beans>
