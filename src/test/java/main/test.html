@@ -1,0 +1,47 @@
+<html>
+<head>
+    <title>hello world~~</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+        }
+
+        header {
+            background-color: #dde7e7;
+            background-image: url("head.jpg");
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            min-height: 300px;
+            padding-top: 100px;
+            text-align: center;
+        }
+
+        h1 {
+            background-color: rgba(0, 150, 136, 0.45);
+            font-weight: bold;
+            font-size: 48px;
+            color: white;
+            line-height: 200px;
+        }
+
+        header h1::before {
+            content: "-";
+            color: red;
+            font-weight: 300;
+
+        }
+        header h1::after {
+            content: "-";
+            color: black;
+            font-weight: 300;
+
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <h1> 你好 这是一行字~~</h1>
+</header>
+</body>
+</html>
