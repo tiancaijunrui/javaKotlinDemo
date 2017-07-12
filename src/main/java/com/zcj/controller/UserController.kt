@@ -2,6 +2,7 @@ package com.zcj.controller
 
 import com.zcj.domain.User
 import com.zcj.service.UserService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
@@ -15,8 +16,8 @@ import java.util.UUID
  */
 @Controller
 class UserController {
-    @Resource
-    private val userService: UserService? = null
+    @Autowired
+    lateinit var userService:UserService
 
     @ResponseBody
     @RequestMapping("uc/toLogin")

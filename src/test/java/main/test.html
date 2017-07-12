@@ -24,12 +24,13 @@
             line-height: 200px;
         }
 
-        header h1::before {
+        header h1::before, header h1::after {
             content: "-";
             color: red;
             font-weight: 300;
 
         }
+
         header h1::after {
             content: "-";
             color: black;
@@ -37,11 +38,73 @@
 
         }
 
+        .content {
+            width: 1200px;
+            margin: 0 auto;
+        }
+
+        .content p::first-letter {
+            font-size: 20px;
+            color: #02a797;
+            font-family: Serif, serif;
+            margin-right: 5px;
+        }
+
+        .content p::first-line {
+            background-color: #d8f7f4;
+            color: #000;
+            font-weight: 400;
+        }
+
+        .content p {
+            line-height: 1.6;
+            text-indent: 2em;
+            letter-spacing: 1px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 300;
+            color: #555;
+        }
+
+        .content > pre {
+            /*顺时针*/
+            padding: 20px;
+            background-color: red;
+            /*边框角度 顺时针*/
+            border-radius: 20px 15px 10px 5px;
+            color: black;
+            border: 2px dotted #04ced8;
+            font-size: 15px;
+        }
+
+        code, span {
+            color: white;
+            /*斜体*/
+            font-style: italic;
+        }
+
+        .content p::selection {
+            background-color: yellow;
+            color: white;
+        }
     </style>
 </head>
 <body>
 <header>
-    <h1> 你好 这是一行字~~</h1>
+    <h1> 你好 我是原谅色</h1>
 </header>
+<div class="content">
+    <p>
+        如何插入样式表 当读到一个样式表时，浏览器会根据它来格式化 HTML 文档。插入样式表的方法有三种：
+        外部样式表当样式需要应用于很多页面时，外部样式表将是理想的选择。在使用外部样式表的情况下，你可以通过改变一个文件来改变整个站点的外观。每个页面使用 标签链接到样式表。 标签在（文档的）头部：
+    </p>
+    <pre>
+    &lt;head&gt;
+        &lt;<code>link </code>rel="stylesheet" type="text/css" href="<span>mystyle.css</span>" /&gt;
+    &lt;/head&gt;
+</pre>
+</div>
+
 </body>
 </html>
