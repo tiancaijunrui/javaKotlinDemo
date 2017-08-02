@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+
+        /*div {*/
+            /*background-color: red;*/
+            /*width: 250px;*/
+            /*height: 250px;*/
+            /*border-radius: 10%;*/
+            /*font-size: 50px;*/
+            /*!* .5 是0.5倍 5就是5倍*!*/
+            /*transform: translate(50%, 10px) scale(.5) rotate(45deg) skew(-5deg, -5deg);*/
+            /*!*top 0 ; bottom 100%*!*/
+            /*transform-origin: 20% 50%;*/
+            /*!*transform: matrix(0,1,1,1,100,150);*!*/
+            /*!*backface-visibility: ;*!*/
+        /*}*/
+
+        @keyframes animations {
+            0% {transform:rotate3d(1,0,1,0);}
+            50% {transform: rotate3d(0,1,1,360deg)}
+        }
+
+        .cube {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            /*如何在 3D 空间中呈现被嵌套的元素*/
+            transform-style: preserve-3d;
+            margin: 100px ;
+            /*transform 属性向元素应用 2D 或 3D 转换。该属性允许我们对元素进行旋转、缩放、移动或倾斜*/
+            /*transform: rotate3d(1,1,1,50deg);*/
+            animation: animations 4s linear infinite;
+        }
+
+        .cube > div {
+            line-height: 100px;
+            /*position 属性规定元素的定位类型。*/
+            position: absolute;
+            width: inherit;
+            /*inherit 继承高度*/
+            height: inherit;
+            font-size: 50px;
+            color: #ccc;
+            text-align: center;
+            /*向框添加一个或多个阴影*/
+            box-shadow: 1px 0px 20px #009677 inset;
+            background-color: rgba(255, 255, 255, 0.6);
+        }
+        .right {
+            transform: rotateY(90deg) translateX(100%);
+            transform-origin: right center;
+        }
+
+        .left {
+            transform: rotateY(-90deg) translateX(-100%);
+            transform-origin: left center;
+        }
+
+        .top {
+            transform: rotateX(90deg) translateY(-100%);
+            transform-origin: top center;
+        }
+
+        .bottom {
+            /*通过 rotateX() 方法，元素围绕其 X 轴以给定的度数进行旋转*/
+            transform: rotateX(-90deg) translateY(100%);
+            transform-origin: bottom center;
+        }
+        .front {
+            /*transform: translateZ(-100px);*/
+        }
+        .back {
+            transform: translateZ(-100px);
+        }
+
+        .anm{
+            width:100px;
+            height: 100px;
+            background-color: white;
+            /*animation:test1 10s ease-in-out infinite;*/
+            /*animation:test1 10s ease-in-out forwards;*/
+            /*animation:test1 5s ease-in-out backwards;*/
+            animation:test1 5s ease-in-out both;
+        }
+        @keyframes test1 {
+            0%{
+                background-color: wheat;
+                margin-left: 0;
+                margin-top: 0;
+            }
+            50%{
+                background-color: yellow;
+                margin-left: 200px;
+                margin-top: 100px;
+            }
+            100%{
+                background-color: brown;
+                margin-left: 0;
+                margin-top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="cube">
+    <div class="front">1</div>
+    <div class="back">2</div>
+    <div class="right">3</div>
+    <div class="left">4</div>
+    <div class="bottom">5</div>
+    <div class="top">6</div>
+    <!--天才第一步-->
+</div>
+<div class="anm">
+
+</div>
+</body>
+</html>
