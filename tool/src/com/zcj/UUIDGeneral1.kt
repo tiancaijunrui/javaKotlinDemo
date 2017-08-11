@@ -7,7 +7,7 @@ import java.util.UUID
  */
 
 fun main(args: Array<String>) {
-    for (i in 1..123){
+    for (i in 1..7){
         println(UUID.randomUUID().toString().replace("-", ""));
     }
 }

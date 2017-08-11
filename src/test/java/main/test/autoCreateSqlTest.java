@@ -4,6 +4,7 @@ package main.test;
  * @Since2017/8/2 ZhaCongJie@HF
  */
 
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
@@ -13,37 +14,36 @@ import org.apache.poi.ss.usermodel.*;
 import java.io.*;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class autoCreateSqlTest {
+
     public static void main(String[] args) throws IOException {
+        Map<String,String> execFiledMap = propertiesToMap();
         String path = "C:\\Users\\junrui\\Desktop\\20170731(1)\\20170731";
         File filePth = new File(path);
-        if (filePth.exists()){
+        if (filePth.exists()) {
             File[] files = filePth.listFiles();
             assert files != null;
             for (File file2 : files) {
                 System.out.println(file2.getName());
                 String file_dir = file2.getAbsolutePath();
-                String fileName = file2.getName().substring(0,file2.getName().indexOf("xlsx")-1);
-                List<String> buildSql = readExcel(file_dir, fileName);
-                createSqlFile(fileName,buildSql);
+                String fileName = file2.getName().substring(0, file2.getName().indexOf("xlsx") - 1);
+                List<String> buildSql = readExcel(file_dir, fileName,execFiledMap);
+                createSqlFile(fileName, buildSql);
             }
         }
-
     }
 
     private static void createSqlFile(String fileName, List<String> buildSql) throws FileNotFoundException, UnsupportedEncodingException {
-        PrintWriter writer = new PrintWriter("C:\\Users\\junrui\\Desktop\\新建文件夹 (2)\\"+fileName+".sql","utf-8");
-        for (String sql : buildSql){
+        PrintWriter writer = new PrintWriter("C:\\Users\\junrui\\Desktop\\新建文件夹 (2)\\" + fileName + ".sql", "utf-8");
+        for (String sql : buildSql) {
             writer.println(sql);
         }
         writer.close();
     }
 
-    private static List<String> readExcel(String file_dir, String fileName) throws IOException {
+    private static List<String> readExcel(String file_dir, String fileName,Map<String,String> dataMap) throws IOException {
         Workbook book = null;
         book = getExcelWorkbook(file_dir);
         Sheet sheet = getSheetByNum(book, 0);
@@ -52,6 +52,7 @@ public class autoCreateSqlTest {
         StringBuilder builder = new StringBuilder();
         StringBuilder builderHead = new StringBuilder();
         List<String> buildSqlList = new ArrayList<>();
+        buildSqlList.add("delete from " + fileName + ";");
         int hasEmptyHead = 0;
         for (int i = 0; i <= lastRowNum; i++) {
             Row row = null;
@@ -59,45 +60,43 @@ public class autoCreateSqlTest {
             if (row != null) {
                 int lastCellNum = row.getLastCellNum();
                 Cell cell = null;
-                builder.delete(0,builder.length());
+                builder.delete(0, builder.length());
                 if (i == 0) {
-                    builderHead.append("INSERT ").append(fileName).append(" NAMES (");
+                    builderHead.append("INSERT INTO ").append(fileName).append(" (");
+//                    int sign = 0;
+//                    if (MapUtils.isNotEmpty(dataMap) && StringUtils.isNotBlank(dataMap.get(fileName))){
+//                        sign = dataMap.get(fileName).split(",").length;
+//                    }
                     for (int j = 0; j < lastCellNum; j++) {
                         cell = row.getCell(j);
                         if (cell != null) {
                             String cellValue = cell.getStringCellValue();
-                            if (StringUtils.isBlank(cellValue)){
+                            if (StringUtils.isBlank(cellValue)) {
                                 hasEmptyHead = 1;
                                 continue;
                             }
                             list.add(cellValue);
                             if (j == lastCellNum - 1) {
-                                builderHead.append("'").append(cellValue).append("')");
+                                builderHead.append("`").append(cellValue).append("`)");
                             } else {
-                                builderHead.append("'").append(cellValue).append("',");
+                                builderHead.append("`").append(cellValue).append("`,");
                             }
                         }
                     }
                     continue;
                 }
                 builder.append(builderHead.toString()).append(" VALUES(");
-                for (int j = hasEmptyHead, size = list.size()+hasEmptyHead; j < size; j++) {
+                for (int j = hasEmptyHead, size = list.size() + hasEmptyHead; j < size; j++) {
                     cell = row.getCell(j);
-                    if (cell != null){
+                    if (cell != null) {
                         String cellValue = null;
-//                        try {
-//                            cellValue = cell.getStringCellValue();
-//                            cellValue = cellValue.replaceAll("'","‘");
-//                        } catch (Exception e) {
-//                            cellValue = String.valueOf((int)cell.getNumericCellValue());
-//                        }
                         cellValue = parseExcel(cell);
                         if (j == size - 1) {
                             builder.append("'").append(cellValue).append("')");
                         } else {
                             builder.append("'").append(cellValue).append("',");
                         }
-                    }else{
+                    } else {
                         if (j == size - 1) {
                             builder.append("NULL").append(")");
                         } else {
@@ -110,6 +109,7 @@ public class autoCreateSqlTest {
                 System.out.println(builder.toString());
             }
         }
+        buildSqlList.add("select count(*) from " + fileName + ";");
         return buildSqlList;
     }
 
@@ -176,11 +176,11 @@ public class autoCreateSqlTest {
                     if (temp.equals("General")) {
                         format.applyPattern("#");
                     }
-                    result = format.format(value);
+                    result = format.format(value).replaceAll(",", "");
                 }
                 break;
             case HSSFCell.CELL_TYPE_STRING:// String类型
-                result = cell.getRichStringCellValue().toString().replaceAll("'","‘");
+                result = TransactSQLInjection(cell.getRichStringCellValue().toString());
                 break;
             case HSSFCell.CELL_TYPE_BLANK:
                 result = "";
@@ -189,5 +189,24 @@ public class autoCreateSqlTest {
                 break;
         }
         return result;
+    }
+
+    public static String TransactSQLInjection(String str) {
+//        return str.replaceAll(".*([';]+|(--)+).*","");
+        return str.replaceAll("'", "‘");
+    }
+    public static  Map<String, String> propertiesToMap(){
+        Properties properties=new Properties();
+        try {
+            properties.load(new FileInputStream("D:\\IdeaProjects\\javaKotlinDemo\\src\\test\\java\\main\\test\\config.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Set<Object> keys=properties.keySet();
+        Map<String, String> map=new HashMap<String, String>();
+        for (Object k : keys) {
+            map.put((String)k, (String)properties.get(k));
+        }
+        return  map;
     }
 }

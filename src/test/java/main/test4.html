@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        ul {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .left-nav {
+            background-color: black;
+            padding-top: 1px;
+            width: 200px;
+            color: #cccccc;
+            position: fixed;
+            top: 68px;
+            left: 0;
+        }
+
+        .lm-nav-item {
+            position: relative;
+            height: 40px;
+            line-height: 40px;
+            color: #b6b6c8;
+            font-size: 14px;
+            text-align: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .lm-icon-home, .lm-icon-mine, .lm-icon-setting, .lm-icon-data, .lm-icon-record, .lm-icon-feedback {
+            background-image: url("default.png?1");
+        }
+
+        .lm-nav-link {
+            color: #b6b6c8;
+            display: inline-block;
+            width: 100%;
+            text-indent: 40px;
+            -webkit-transition: .05s ease-in;
+            -o-transition: .05s ease-in;
+            transition: .05s ease-in;
+        }
+
+        .lm-icon {
+            display: inline-block;
+            width: 18px;
+            height: 20px;
+            background-repeat: no-repeat;
+            vertical-align: middle;
+        }
+
+        .lm-nav-item .cur .lm-nav-title {
+            color: #fff;
+        }
+
+        .lm-icon-home {
+            background-position: 0 0;
+        }
+
+        .lm-icon-mine {
+            background-position: 0 -40px;
+        }
+
+        .lm-icon-setting {
+            background-position: 0 -160px;
+        }
+
+        .lm-icon-feedback {
+            background-position: 0 -231px;
+        }
+
+        .lm-nav-link:hover{
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<div class="left-nav">
+    <ul class="">
+        <li class="lm-nav-item">
+            <a class="lm-nav-link cur" href="javascript:void(0);">
+                <span class="lm-icon lm-icon-home"></span>
+                <span class="lm-nav-title">首页</span>
+            </a>
+        </li>
+        <li class="lm-nav-item">
+            <a class="lm-nav-link" href="javascript:void(0);">
+                <span class="lm-icon lm-icon-mine"></span>
+                <span class="lm-nav-title">我的直播</span>
+            </a>
+        </li>
+        <li class="lm-nav-item">
+            <a class="lm-nav-link" href="javascript:void(0);">
+                <span class="lm-icon lm-icon-setting"></span>
+                <span class="lm-nav-title">系统设置</span>
+            </a>
+        </li>
+        <li class="lm-nav-item">
+            <a class="lm-nav-link" href="javascript:void(0);">
+                <span class="lm-icon lm-icon-feedback"></span>
+                <span class="lm-nav-title">反馈意见</span>
+            </a>
+        </li>
+    </ul>
+
+</div>
+</body>
+</html>
